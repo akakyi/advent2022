@@ -67,37 +67,78 @@ fun main(args: Array<String>) {
 //    }
 //    println(total)
 
-    //TODO https://adventofcode.com/2022/day/3
+//    //TODO https://adventofcode.com/2022/day/3
+//    val lowerShift = 96
+//    val upperShift = 38
+//    println('a'.toInt() - lowerShift)
+//    println('z'.toInt() - lowerShift)
+//    println('A'.toInt() - upperShift)
+//    println('Z'.toInt() - upperShift)
+//
+//    var scoreCount = 0
+//    val file = File("/home/akakyi/projects/cosysoft/advent2022/src/main/kotlin/newDoc 3.txt")
+//    file.forEachLine {
+//        val firstHalf = it.substring(0 until (it.length / 2))
+//        val secondHalf = it.substring(it.length / 2 until it.length)
+//
+//        scoreCount += firstHalf.filter { ch ->
+//            secondHalf.contains(ch)
+//        }.toSet().map { ch ->
+//            when (ch) {
+//                in 'a'..'z' -> {
+//                    ch.toInt() - lowerShift
+//                }
+//                in 'A'..'Z' -> {
+//                    ch.toInt() - upperShift
+//                }
+//                else -> {
+//                    0
+//                }
+//            }
+//        }.reduce { acc, sc ->
+//            acc + sc
+//        }
+//    }
+//    println(scoreCount)
+
+    //TODO https://adventofcode.com/2022/day/3#part2
     val lowerShift = 96
     val upperShift = 38
-    println('a'.toInt() - lowerShift)
-    println('z'.toInt() - lowerShift)
-    println('A'.toInt() - upperShift)
-    println('Z'.toInt() - upperShift)
 
-    var scoreCount = 0
-    val file = File("/home/akakyi/projects/cosysoft/advent2022/src/main/kotlin/newDoc 3.txt")
+    var groupItemsCounter = 0
+    var crossingChars = ""
+    var badgesPrioritiesCounter = 0
+    val file = File("/home/akakyi/projects/cosysoft/advent2022/src/main/kotlin/newDoc 4.txt")
     file.forEachLine {
-        val firstHalf = it.substring(0 until (it.length / 2))
-        val secondHalf = it.substring(it.length / 2 until it.length)
+        if (groupItemsCounter == 0) {
+            crossingChars = it
+        }
 
-        scoreCount += firstHalf.filter { ch ->
-            secondHalf.contains(ch)
-        }.toSet().map { ch ->
-            when (ch) {
-                in 'a'..'z' -> {
-                    ch.toInt() - lowerShift
+        crossingChars = it.filter { ch -> crossingChars.contains(ch) }
+
+        if (groupItemsCounter >= 2) {
+            badgesPrioritiesCounter += crossingChars
+                .toSet()
+                .map { ch ->
+                    when (ch) {
+                        in 'a'..'z' -> {
+                            ch.toInt() - lowerShift
+                        }
+                        in 'A'..'Z' -> {
+                            ch.toInt() - upperShift
+                        }
+                        else -> {
+                            0
+                        }
+                    }
+                }.reduce { acc, sc ->
+                    acc + sc
                 }
-                in 'A'..'Z' -> {
-                    ch.toInt() - upperShift
-                }
-                else -> {
-                    0
-                }
-            }
-        }.reduce { acc, sc ->
-            acc + sc
+            groupItemsCounter = 0
+        } else {
+            groupItemsCounter++
         }
     }
-    println(scoreCount)
+
+    println(badgesPrioritiesCounter)
 }
