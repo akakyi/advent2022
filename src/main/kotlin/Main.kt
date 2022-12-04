@@ -101,44 +101,69 @@ fun main(args: Array<String>) {
 //    }
 //    println(scoreCount)
 
-    //TODO https://adventofcode.com/2022/day/3#part2
-    val lowerShift = 96
-    val upperShift = 38
+//    //TODO https://adventofcode.com/2022/day/3#part2
+//    val lowerShift = 96
+//    val upperShift = 38
+//
+//    var groupItemsCounter = 0
+//    var crossingChars = ""
+//    var badgesPrioritiesCounter = 0
+//    val file = File("/home/akakyi/projects/cosysoft/advent2022/src/main/kotlin/newDoc 4.txt")
+//    file.forEachLine {
+//        if (groupItemsCounter == 0) {
+//            crossingChars = it
+//        }
+//
+//        crossingChars = it.filter { ch -> crossingChars.contains(ch) }
+//
+//        if (groupItemsCounter >= 2) {
+//            badgesPrioritiesCounter += crossingChars
+//                .toSet()
+//                .map { ch ->
+//                    when (ch) {
+//                        in 'a'..'z' -> {
+//                            ch.toInt() - lowerShift
+//                        }
+//                        in 'A'..'Z' -> {
+//                            ch.toInt() - upperShift
+//                        }
+//                        else -> {
+//                            0
+//                        }
+//                    }
+//                }.reduce { acc, sc ->
+//                    acc + sc
+//                }
+//            groupItemsCounter = 0
+//        } else {
+//            groupItemsCounter++
+//        }
+//    }
+//
+//    println(badgesPrioritiesCounter)
 
-    var groupItemsCounter = 0
-    var crossingChars = ""
-    var badgesPrioritiesCounter = 0
-    val file = File("/home/akakyi/projects/cosysoft/advent2022/src/main/kotlin/newDoc 4.txt")
+    //TODO https://adventofcode.com/2022/day/4
+//    val fullRanges = mutableSetOf<IntRange>()
+    var crossingCount = 0
+    val file = File("/home/akakyi/projects/cosysoft/advent2022/src/main/kotlin/newDoc 5.txt")
     file.forEachLine {
-        if (groupItemsCounter == 0) {
-            crossingChars = it
-        }
+        val input = it.split(",")
+        val firstAssignmentInput = input[0]
+        val secondAssignmentInput = input[1]
 
-        crossingChars = it.filter { ch -> crossingChars.contains(ch) }
+        val firstRangeData = firstAssignmentInput.split("-")
+        val firstRange = IntRange(firstRangeData[0].toInt(), firstRangeData[1].toInt())
+        val secondRangeData = secondAssignmentInput.split("-")
+        val secondRange = IntRange(secondRangeData[0].toInt(), secondRangeData[1].toInt())
 
-        if (groupItemsCounter >= 2) {
-            badgesPrioritiesCounter += crossingChars
-                .toSet()
-                .map { ch ->
-                    when (ch) {
-                        in 'a'..'z' -> {
-                            ch.toInt() - lowerShift
-                        }
-                        in 'A'..'Z' -> {
-                            ch.toInt() - upperShift
-                        }
-                        else -> {
-                            0
-                        }
-                    }
-                }.reduce { acc, sc ->
-                    acc + sc
-                }
-            groupItemsCounter = 0
-        } else {
-            groupItemsCounter++
+        if (
+//            firstRange.contains(secondRange.first) && firstRange.contains(secondRange.last) ||
+//                    secondRange.contains(firstRange.first) && secondRange.contains(firstRange.last)
+            firstRange.contains(secondRange.first) || firstRange.contains(secondRange.last) ||
+            secondRange.contains(firstRange.first) || secondRange.contains(firstRange.last)
+        ) {
+            crossingCount++
         }
     }
-
-    println(badgesPrioritiesCounter)
+    println(crossingCount)
 }
