@@ -192,10 +192,16 @@ fun main(args: Array<String>) {
         val from = tokens[3].toByte()
         val to = tokens[5].toByte()
 
+        val poppedCrates = mutableListOf<Char>()
         for (i in 0 until movesCount) {
             val crate = crates[from]?.pop() ?: throw RuntimeException("Stack $from not existed!")
-            crates[to]?.push(crate) ?: throw RuntimeException("Stack $to not existed!")
+            poppedCrates.add(crate)
         }
+        poppedCrates
+            .reversed()
+            .forEach { crate ->
+                crates[to]?.push(crate) ?: throw RuntimeException("Stack $to not existed!")
+            }
     }
     print(crates[1]?.peek())
     print(crates[2]?.peek())
