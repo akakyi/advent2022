@@ -1,4 +1,7 @@
 import java.io.File
+import java.util.LinkedList
+import java.util.Queue
+import java.util.Stack
 
 fun main(args: Array<String>) {
 //    //TODO https://adventofcode.com/2022/day/1
@@ -144,26 +147,63 @@ fun main(args: Array<String>) {
 
     //TODO https://adventofcode.com/2022/day/4
 //    val fullRanges = mutableSetOf<IntRange>()
-    var crossingCount = 0
-    val file = File("/home/akakyi/projects/cosysoft/advent2022/src/main/kotlin/newDoc 5.txt")
+//    var crossingCount = 0
+//    val file = File("/home/akakyi/projects/cosysoft/advent2022/src/main/kotlin/newDoc 5.txt")
+//    file.forEachLine {
+//        val input = it.split(",")
+//        val firstAssignmentInput = input[0]
+//        val secondAssignmentInput = input[1]
+//
+//        val firstRangeData = firstAssignmentInput.split("-")
+//        val firstRange = IntRange(firstRangeData[0].toInt(), firstRangeData[1].toInt())
+//        val secondRangeData = secondAssignmentInput.split("-")
+//        val secondRange = IntRange(secondRangeData[0].toInt(), secondRangeData[1].toInt())
+//
+//        if (
+////            firstRange.contains(secondRange.first) && firstRange.contains(secondRange.last) ||
+////                    secondRange.contains(firstRange.first) && secondRange.contains(firstRange.last)
+//            firstRange.contains(secondRange.first) || firstRange.contains(secondRange.last) ||
+//            secondRange.contains(firstRange.first) || secondRange.contains(firstRange.last)
+//        ) {
+//            crossingCount++
+//        }
+//    }
+//    println(crossingCount)
+
+    //TODO https://adventofcode.com/2022/day/5
+    val crates = mutableMapOf<Byte, Stack<Char>>()
+    val cratesFile = File("/home/akakyi/projects/cosysoft/advent2022/src/main/kotlin/newDoc 7.txt")
+    cratesFile.forEachLine {
+        val stack = it.first().digitToInt().toByte()
+
+        val cratesList = Stack<Char>()
+        it.substring(2)
+            .reversed()
+            .forEach { c ->
+                cratesList.add(c)
+            }
+        crates[stack] = cratesList
+    }
+
+    val file = File("/home/akakyi/projects/cosysoft/advent2022/src/main/kotlin/newDoc 6.txt")
     file.forEachLine {
-        val input = it.split(",")
-        val firstAssignmentInput = input[0]
-        val secondAssignmentInput = input[1]
+        val tokens = it.split(" ")
+        val movesCount = tokens[1].toInt()
+        val from = tokens[3].toByte()
+        val to = tokens[5].toByte()
 
-        val firstRangeData = firstAssignmentInput.split("-")
-        val firstRange = IntRange(firstRangeData[0].toInt(), firstRangeData[1].toInt())
-        val secondRangeData = secondAssignmentInput.split("-")
-        val secondRange = IntRange(secondRangeData[0].toInt(), secondRangeData[1].toInt())
-
-        if (
-//            firstRange.contains(secondRange.first) && firstRange.contains(secondRange.last) ||
-//                    secondRange.contains(firstRange.first) && secondRange.contains(firstRange.last)
-            firstRange.contains(secondRange.first) || firstRange.contains(secondRange.last) ||
-            secondRange.contains(firstRange.first) || secondRange.contains(firstRange.last)
-        ) {
-            crossingCount++
+        for (i in 0 until movesCount) {
+            val crate = crates[from]?.pop() ?: throw RuntimeException("Stack $from not existed!")
+            crates[to]?.push(crate) ?: throw RuntimeException("Stack $to not existed!")
         }
     }
-    println(crossingCount)
+    print(crates[1]?.peek())
+    print(crates[2]?.peek())
+    print(crates[3]?.peek())
+    print(crates[4]?.peek())
+    print(crates[5]?.peek())
+    print(crates[6]?.peek())
+    print(crates[7]?.peek())
+    print(crates[8]?.peek())
+    print(crates[9]?.peek())
 }
